@@ -62,12 +62,13 @@ public class ArithmeticCalculatorServlet extends HttpServlet {
             throws ServletException, IOException {
         //request.setAttribute("result", "---");
         
+        try{
             String str1 = request.getParameter("num1");
             String str2 = request.getParameter("num2");
             int int1 = Integer.parseInt(str1);
             int int2 = Integer.parseInt(str2);
             
-            //identify the selected button
+             //identify the selected button
             String function = request.getParameter("calc");
             
             //add
@@ -87,7 +88,20 @@ public class ArithmeticCalculatorServlet extends HttpServlet {
                 request.setAttribute("result", int1 % int2);
             
             getServletContext().getRequestDispatcher("/WEB-INF/arithmeticcalculator.jsp").forward(request, response);
+            
+        }
+        
+        catch(NumberFormatException e){
+         request.setAttribute("result", "invalid");
+               getServletContext().getRequestDispatcher("/WEB-INF/arithmeticcalculator.jsp")
+                       .forward(request, response);
+               return;
+          
+         }
+           
     }
+    
+    
 
     /**
      * Returns a short description of the servlet.
