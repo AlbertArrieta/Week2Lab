@@ -67,11 +67,26 @@ public class ArithmeticCalculatorServlet extends HttpServlet {
             int int1 = Integer.parseInt(str1);
             int int2 = Integer.parseInt(str2);
             
-            request.setAttribute("result", int1 + int2);
+            //identify the selected button
+            String function = request.getParameter("calc");
             
+            //add
+            if(function.equals("+"))
+                request.setAttribute("result", int1 + int2);
+            
+            //subtract
+            if(function.equals("-"))
+                request.setAttribute("result", int1 - int2);
+            
+            //multiply
+            if(function.equals("*"))
+                request.setAttribute("result", int1 * int2);
+            
+            //divide
+            if(function.equals("%"))
+                request.setAttribute("result", int1 % int2);
             
             getServletContext().getRequestDispatcher("/WEB-INF/arithmeticcalculator.jsp").forward(request, response);
-        
     }
 
     /**
