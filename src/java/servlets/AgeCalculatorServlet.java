@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+
 /**
  *
  * @author 785264
@@ -27,6 +28,9 @@ public class AgeCalculatorServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    
+    int ageNum;
+ 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -45,14 +49,39 @@ public class AgeCalculatorServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int ageNum;
         String ageStr = request.getParameter("age");
         
-        ageNum = Integer.parseInt(ageStr) + 1;
+       
+           try{
+            ageNum = Integer.parseInt(ageStr) + 1;
+
+             //output when age is given
+            String newAge = "On your next birthday you will be " + ageNum;
+            request.setAttribute("calcAge", newAge);
+            getServletContext().getRequestDispatcher("/WEB-INF/agecalculator.jsp").forward(request, response);
+         }
         
-        String newAge = "On your next birthday you will be " + ageNum;
-        request.setAttribute("calcAge", newAge);
-        getServletContext().getRequestDispatcher("/WEB-INF/agecalculator.jsp").forward(request, response);
+        
+        catch(NumberFormatException e){
+            
+            //output if input is left blank
+            if (ageStr == null || ageStr.equals("")){
+               request.setAttribute("calcAge", "You must give your current age.");
+               getServletContext().getRequestDispatcher("/WEB-INF/agecalculator.jsp")
+                       .forward(request, response);
+               return;
+            }
+            
+            //output if text box is not a number
+
+                request.setAttribute("calcAge", "You must enter a number.");
+                getServletContext().getRequestDispatcher("/WEB-INF/agecalculator.jsp")
+                        .forward(request, response);
+
+        }
+           
+        
+       
     }
 
     /**
