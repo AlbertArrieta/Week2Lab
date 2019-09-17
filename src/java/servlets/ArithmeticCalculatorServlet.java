@@ -44,13 +44,12 @@ public class ArithmeticCalculatorServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         request.setAttribute("result", "---");
-        
+
         getServletContext().getRequestDispatcher("/WEB-INF/arithmeticcalculator.jsp")
                 .forward(request, response);
-        
-        
+
     }
 
     /**
@@ -64,55 +63,55 @@ public class ArithmeticCalculatorServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         String str1 = request.getParameter("num1");
         String str2 = request.getParameter("num2");
-        
-        try{
+
+        try {
             //parse input into integers
             int int1 = Integer.parseInt(str1);
             int int2 = Integer.parseInt(str2);
-            
-             //identify the selected button
+
+            //identify the selected button
             String function = request.getParameter("calc");
-            
+
             //add
-            if(function.equals("+"))
+            if (function.equals("+")) {
                 request.setAttribute("result", int1 + int2);
-            
+            }
+
             //subtract
-            if(function.equals("-"))
+            if (function.equals("-")) {
                 request.setAttribute("result", int1 - int2);
-            
+            }
+
             //multiply
-            if(function.equals("*"))
+            if (function.equals("*")) {
                 request.setAttribute("result", int1 * int2);
-            
+            }
+
             //divide
-            if(function.equals("%"))
+            if (function.equals("%")) {
                 request.setAttribute("result", int1 % int2);
-            
+            }
+
             //keep values in the input
             request.setAttribute("num1", str1);
             request.setAttribute("num2", str2);
-            
+
             getServletContext().getRequestDispatcher("/WEB-INF/arithmeticcalculator.jsp").forward(request, response);
-            
+
+        } catch (NumberFormatException e) {
+            request.setAttribute("result", "invalid");
+            request.setAttribute("num1", str1);
+            request.setAttribute("num2", str2);
+            getServletContext().getRequestDispatcher("/WEB-INF/arithmeticcalculator.jsp")
+                    .forward(request, response);
+            return;
+
         }
-        
-        catch(NumberFormatException e){
-         request.setAttribute("result", "invalid");
-         request.setAttribute("num1", str1);
-         request.setAttribute("num2", str2);
-               getServletContext().getRequestDispatcher("/WEB-INF/arithmeticcalculator.jsp")
-                       .forward(request, response);
-               return;
-          
-         }
-           
+
     }
-    
-    
 
     /**
      * Returns a short description of the servlet.
