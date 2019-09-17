@@ -23,6 +23,7 @@
         <br>
         <br>
         <div> Result: ${result} </div>
-        
+        </form>
+        <a href="age">Age Calculator</a>
     </body>
 </html>
