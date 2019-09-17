@@ -65,10 +65,11 @@ public class ArithmeticCalculatorServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        String str1 = request.getParameter("num1");
+        String str2 = request.getParameter("num2");
         
         try{
-            String str1 = request.getParameter("num1");
-            String str2 = request.getParameter("num2");
+            //parse input into integers
             int int1 = Integer.parseInt(str1);
             int int2 = Integer.parseInt(str2);
             
@@ -91,12 +92,18 @@ public class ArithmeticCalculatorServlet extends HttpServlet {
             if(function.equals("%"))
                 request.setAttribute("result", int1 % int2);
             
+            //keep values in the input
+            request.setAttribute("num1", str1);
+            request.setAttribute("num2", str2);
+            
             getServletContext().getRequestDispatcher("/WEB-INF/arithmeticcalculator.jsp").forward(request, response);
             
         }
         
         catch(NumberFormatException e){
          request.setAttribute("result", "invalid");
+         request.setAttribute("num1", str1);
+         request.setAttribute("num2", str2);
                getServletContext().getRequestDispatcher("/WEB-INF/arithmeticcalculator.jsp")
                        .forward(request, response);
                return;
